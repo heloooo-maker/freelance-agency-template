@@ -23,17 +23,20 @@ Every component reads from this file — none of them hardcode copy.
 
 ## 3. Edit `src/theme.css`
 
-Only 5 CSS variables control the whole color scheme:
+These CSS variables control the whole color scheme:
 
 | Variable | What it controls |
 |---|---|
 | `--bg` | page background |
-| `--fg` | primary text / headings |
+| `--bg-soft` | soft section background (alternating sections, cards) |
+| `--ink` / `--fg` | primary text / headings / buttons / footer background |
 | `--muted` | secondary text |
 | `--accent` | buttons, highlights, animated dot, marquee separator |
+| `--accent-soft` | pale tint for eyebrow pills/badges |
 | `--line` | hairline borders / dividers |
+| `--yellow` / `--green` / `--blue` | pastel persona card backgrounds |
 
-Change these 5 values and the entire site re-skins — no component touches a color
+Change these values and the entire site re-skins — no component touches a color
 literal directly.
 
 ## 4. Optional: swap fonts
@@ -60,10 +63,11 @@ src/
   components/
     ui/              <- generic, content-agnostic building blocks
       Reveal.jsx        (scroll-in animation wrapper)
-      SectionHead.jsx   (index label + heading + description)
-      Card.jsx          (generic number/title/text card)
-      Marquee.jsx        (infinite scroll ticker, takes any word list)
+      Marquee.jsx       (infinite scroll ticker, takes any word list)
+      PersonaCard.jsx   (pastel-toned card with kicker/heading/tags)
+      Accordion.jsx     (single-open FAQ accordion)
     sections/        <- page sections, each wires content.js -> ui/
-      Nav.jsx, Hero.jsx, Services.jsx, Work.jsx, About.jsx, CTA.jsx, Footer.jsx
+      Nav.jsx, Hero.jsx, Personas.jsx, Services.jsx, Work.jsx, About.jsx,
+      Faq.jsx, CTA.jsx, Footer.jsx
   App.jsx            <- composes sections in order
 ```

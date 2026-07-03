@@ -1,16 +1,28 @@
-# React + Vite
+# Freelance Agency Landing Page Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A reusable, single-page React landing page template — currently themed as
+**Altitude Coffee Co.**, a small-batch coffee roastery demo.
 
-Currently, two official plugins are available:
+**Live demo**: https://freelance-agency-demo.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Built with React 19 + Vite + Framer Motion. Structured so a new client site is
+a copy of this folder plus edits to two files — see [CUSTOMIZING.md](./CUSTOMIZING.md).
 
-## React Compiler
+## Development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the Oxlint configuration
+## Build
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```bash
+npm run build
+```
+
+## Stack
+
+- [React](https://react.dev/) + [Vite](https://vite.dev/)
+- [Framer Motion](https://motion.dev/) for scroll-in reveal animations
+- [Oxlint](https://oxc.rs/) for linting
