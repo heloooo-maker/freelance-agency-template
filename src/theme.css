@@ -1,0 +1,13 @@
+/*
+ * Design tokens — this is the ONLY file you should touch to re-skin this
+ * template for a new client's brand colors. Everything else reads these
+ * CSS custom properties, so changing 4 values here re-themes the whole site.
+ */
+:root {
+  --bg: #1c140d;       /* page background — dark roasted coffee brown */
+  --fg: #f5ead9;       /* primary text / headings — warm cream */
+  --muted: #a8917c;    /* secondary text — warm tan */
+  --accent: #d68c3f;   /* brand accent (buttons, highlights, dots) — roasted amber/crema */
+  --line: rgba(245, 234, 217, 0.12); /* hairline borders / dividers */
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif; /* artisanal display font for headings */
+}

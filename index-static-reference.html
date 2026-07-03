@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURELIA — Digital Design Studio</title>
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --fg: #f4f2ee;
+    --muted: #8a8a92;
+    --accent: #d4ff3f;
+    --line: rgba(244,242,238,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- Animated backdrop ---------- */
+  .noise-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(212,255,63,0.08), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(140,120,255,0.10), transparent 45%),
+      var(--bg);
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0%   { background-position: 0% 0%, 0% 0%; }
+    100% { background-position: 10% 15%, -10% -10%; }
+  }
+
+  /* ---------- Layout shell ---------- */
+  header, main, footer { position: relative; z-index: 1; }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 6vw;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    mix-blend-mode: difference;
+  }
+  .logo { font-weight: 700; font-size: 1.1rem; letter-spacing: 0.15em; }
+  .nav-links { display: flex; gap: 2.5rem; font-size: 0.85rem; letter-spacing: 0.05em; }
+  .nav-links a { position: relative; padding-bottom: 4px; }
+  .nav-links a::after {
+    content: ''; position: absolute; left: 0; bottom: 0;
+    width: 0; height: 1px; background: currentColor;
+    transition: width .35s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    border: 1px solid var(--fg);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 6vw;
+  }
+  .hero-eyebrow {
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp .8s ease forwards .1s;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 8vw, 7.2rem);
+    line-height: 0.98;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    max-width: 20ch;
+  }
+  .hero h1 span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: fadeUp .9s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero h1 .line1 span { animation-delay: calc(0.05s * var(--i)); }
+  .hero h1 .line2 { color: var(--muted); }
+  .hero h1 .line2 span { animation-delay: calc(0.5s + 0.05s * var(--i)); }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-sub {
+    margin-top: 40px;
+    max-width: 42ch;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp .8s ease forwards 1.1s;
+  }
+  .scroll-cue {
+    position: absolute;
+    bottom: 40px;
+    left: 6vw;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .scroll-cue .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.8); opacity: 0.4; }
+  }
+
+  /* ---------- Marquee ---------- */
+  .marquee-wrap {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee {
+    display: inline-flex;
+    animation: scroll 22s linear infinite;
+  }
+  .marquee span {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0 2rem;
+    color: var(--muted);
+  }
+  .marquee span::after { content: '—'; margin-left: 2rem; color: var(--accent); }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ---------- Section shell ---------- */
+  section { padding: 140px 6vw; }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 70px;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .section-head .index {
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+  }
+  .section-head h2 {
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    max-width: 16ch;
+  }
+  .section-head p { color: var(--muted); max-width: 30ch; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ---------- Services ---------- */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .service-card {
+    background: var(--bg);
+    padding: 44px 32px;
+    transition: background .35s ease;
+  }
+  .service-card:hover { background: #121214; }
+  .service-num { color: var(--accent); font-size: 0.8rem; letter-spacing: 0.15em; }
+  .service-card h3 { font-size: 1.4rem; margin: 20px 0 14px; }
+  .service-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.6; }
+
+  /* ---------- Work grid ---------- */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 760px) { .work-grid { grid-template-columns: 1fr; } }
+  .work-card {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1d, #0d0d0f);
+    display: flex;
+    align-items: flex-end;
+    padding: 28px;
+    isolation: isolate;
+  }
+  .work-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(212,255,63,0.18), transparent 60%);
+    opacity: 0;
+    transition: opacity .5s ease;
+    z-index: -1;
+  }
+  .work-card:hover::before { opacity: 1; }
+  .work-card:hover { transform: translateY(-6px); }
+  .work-card { transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+  .work-meta h3 { font-size: 1.3rem; margin-bottom: 6px; }
+  .work-meta span { color: var(--muted); font-size: 0.85rem; letter-spacing: 0.05em; }
+
+  /* ---------- About ---------- */
+  .about-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 760px) { .about-wrap { grid-template-columns: 1fr; } }
+  .about-wrap p { font-size: 1.3rem; line-height: 1.6; color: #d8d6d2; }
+  .stat-row { display: flex; gap: 3rem; margin-top: 40px; flex-wrap: wrap; }
+  .stat b { font-size: 2.2rem; display: block; color: var(--accent); }
+  .stat span { color: var(--muted); font-size: 0.85rem; }
+
+  /* ---------- CTA ---------- */
+  .cta {
+    text-align: center;
+    padding: 160px 6vw;
+    border-top: 1px solid var(--line);
+  }
+  .cta h2 {
+    font-size: clamp(2.2rem, 7vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    max-width: 18ch;
+    margin: 0 auto 40px;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--accent);
+    color: #0a0a0c;
+    padding: 18px 36px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: transform .3s ease;
+  }
+  .cta-btn:hover { transform: scale(1.05); }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 6vw;
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer .socials { display: flex; gap: 24px; }
+</style>
+</head>
+<body>
+
+<div class="noise-bg"></div>
+
+<nav>
+  <div class="logo">AURELIA</div>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+  </div>
+  <a href="#contact" class="nav-cta">Start a project</a>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="hero-eyebrow">Digital Design Studio — Est. 2026</div>
+    <h1>
+      <span class="line1"></span>
+      <span class="line2"></span>
+    </h1>
+    <p class="hero-sub">We design and build websites that feel as good as they look — for brands who refuse to be forgettable.</p>
+    <div class="scroll-cue"><span class="dot"></span> Scroll to explore</div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <span>DESIGN</span><span>DEVELOP</span><span>LAUNCH</span><span>ITERATE</span>
+      <span>DESIGN</span><span>DEVELOP</span><span>LAUNCH</span><span>ITERATE</span>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="section-head reveal">
+      <div>
+        <div class="index">01 — What we do</div>
+        <h2>Full-service digital craft, from idea to launch.</h2>
+      </div>
+      <p>Small studio, senior output — every project gets direct attention, no account-manager telephone game.</p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <h3>Web Design</h3>
+        <p>Interfaces built around how people actually scroll, tap, and decide — not just how they look in a mockup.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <h3>Development</h3>
+        <p>Fast, accessible, maintainable front-ends — clean handoff whether you need a landing page or a full platform.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <h3>Branding</h3>
+        <p>Visual identity systems — logo, type, color, motion — consistent everywhere your brand shows up.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <h3>Motion &amp; Interaction</h3>
+        <p>Micro-interactions and scroll storytelling that make a site feel alive without slowing it down.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="section-head reveal">
+      <div>
+        <div class="index">02 — Selected work</div>
+        <h2>A few things we're proud of.</h2>
+      </div>
+      <p>Sample project concepts — replace with real client work once launched.</p>
+    </div>
+    <div class="work-grid reveal">
+      <div class="work-card">
+        <div class="work-meta"><h3>Northside Coffee</h3><span>Brand · Web — 2026</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-meta"><h3>Fernweh Travel</h3><span>Web Platform — 2026</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-meta"><h3>Lumen Fitness</h3><span>App Landing — 2026</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-meta"><h3>Marrow Studio</h3><span>Portfolio Site — 2026</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about-wrap reveal">
+      <p>We're a small independent studio that partners closely with founders and small teams to ship websites that actually move the needle — not just look nice in a portfolio.</p>
+      <div>
+        <div class="stat-row">
+          <div class="stat"><b>20+</b><span>Projects shipped</span></div>
+          <div class="stat"><b>98%</b><span>Client satisfaction</span></div>
+          <div class="stat"><b>5</b><span>Days avg. turnaround*</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="cta reveal">
+    <h2>Got a project in mind? Let's build it.</h2>
+    <a href="mailto:hello@example.com" class="cta-btn">Start a conversation →</a>
+  </section>
+</main>
+
+<footer>
+  <div>© 2026 AURELIA Studio. All rights reserved.</div>
+  <div class="socials">
+    <a href="#">Instagram</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Behance</a>
+  </div>
+</footer>
+
+<script>
+  // Split hero headline into per-letter/word spans for staggered reveal
+  const line1 = "We craft digital";
+  const line2 = "experiences.";
+  function buildLine(text, el, offset) {
+    el.innerHTML = text.split(' ').map((word, wi) =>
+      `<span style="--i:${wi + offset}">${word}&nbsp;</span>`
+    ).join('');
+  }
+  buildLine(line1, document.querySelector('.line1'), 0);
+  buildLine(line2, document.querySelector('.line2'), 10);
+
+  // Scroll-reveal via IntersectionObserver
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
