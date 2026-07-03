@@ -13,7 +13,7 @@ html {
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--sans);
   overflow-x: hidden;
 }
 

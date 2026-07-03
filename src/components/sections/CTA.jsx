@@ -6,9 +6,21 @@ export default function CTA() {
 
   return (
     <section id="contact" className="cta">
-      <Reveal>
-        <h2>{cta.heading}</h2>
-        <a href={`mailto:${cta.email}`} className="cta-btn">{cta.buttonLabel}</a>
+      <Reveal className="cta-inner">
+        <div className="cta-copy">
+          <h2>{cta.heading}</h2>
+          <a href={`mailto:${cta.email}`} className="btn btn-dark">{cta.buttonLabel}</a>
+        </div>
+        <div className="cta-visual" aria-hidden="true">
+          <div className="cta-visual-card">
+            <span className="cta-visual-swatch" />
+            <div className="cta-visual-lines">
+              <span style={{ width: '70%' }} />
+              <span style={{ width: '45%' }} />
+            </div>
+          </div>
+          <div className="cta-visual-chip">Roasted this week</div>
+        </div>
       </Reveal>
     </section>
   )

@@ -1,13 +1,30 @@
 /*
  * Design tokens — this is the ONLY file you should touch to re-skin this
  * template for a new client's brand colors. Everything else reads these
- * CSS custom properties, so changing 4 values here re-themes the whole site.
+ * CSS custom properties, so changing values here re-themes the whole site.
+ *
+ * Palette follows the light/bold/pastel-card language of the Avada
+ * reference UI: white/off-white surfaces, near-black headline type,
+ * black pill buttons, and colorful flat cards — with Altitude's own
+ * roast-amber kept as the single brand accent.
  */
 :root {
-  --bg: #1c140d;       /* page background — dark roasted coffee brown */
-  --fg: #f5ead9;       /* primary text / headings — warm cream */
-  --muted: #a8917c;    /* secondary text — warm tan */
-  --accent: #d68c3f;   /* brand accent (buttons, highlights, dots) — roasted amber/crema */
-  --line: rgba(245, 234, 217, 0.12); /* hairline borders / dividers */
-  --serif: 'Fraunces', Georgia, 'Times New Roman', serif; /* artisanal display font for headings */
+  --bg: #fffdfa;            /* page background — warm white */
+  --bg-soft: #f6f2ea;       /* soft section background */
+  --ink: #16130f;           /* near-black — headlines, buttons, footer */
+  --fg: #16130f;            /* primary text */
+  --muted: #6b6255;         /* secondary text — warm gray */
+  --accent: #c8712f;        /* brand accent — roast amber (buttons, links, dots) */
+  --accent-soft: #f3e3d1;   /* pale amber tint for chips/badges */
+  --line: rgba(22, 19, 15, 0.1); /* hairline borders / dividers */
+
+  --yellow: #f5e15c;        /* persona card — home brewers */
+  --green: #b9f29d;         /* persona card — cafés & restaurants */
+  --blue: #a9def2;          /* persona card — gifting & events */
+
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+
+  --sans: 'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
 }

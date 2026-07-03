@@ -1,5 +1,4 @@
 import { content } from '../../content'
-import SectionHead from '../ui/SectionHead'
 import Reveal from '../ui/Reveal'
 
 /**
@@ -8,13 +7,13 @@ import Reveal from '../ui/Reveal'
  * the branded gradient + texture when no image is set yet, so the grid never
  * looks broken while photos are still pending.
  */
-function WorkCard({ title, meta, image }) {
+function ProductCard({ title, meta, image }) {
   return (
     <div
-      className={`work-card${image ? ' has-image' : ''}`}
+      className={`product-card${image ? ' has-image' : ''}`}
       style={image ? { backgroundImage: `url(${image})` } : undefined}
     >
-      <div className="work-meta">
+      <div className="product-meta">
         <h3>{title}</h3>
         <span>{meta}</span>
       </div>
@@ -22,16 +21,33 @@ function WorkCard({ title, meta, image }) {
   )
 }
 
+function FeatureCard({ title, text }) {
+  return (
+    <div className="bento-feature-card">
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </div>
+  )
+}
+
 export default function Work() {
   const { work } = content
+  const [featureA, featureB] = work.features
 
   return (
     <section id="work">
-      <SectionHead index={work.index} heading={work.heading} description={work.description} />
-      <Reveal className="work-grid">
-        {work.items.map((item) => (
-          <WorkCard key={item.title} title={item.title} meta={item.meta} image={item.image} />
-        ))}
+      <Reveal className="section-head section-head--center">
+        <div className="eyebrow-pill">{work.index}</div>
+        <h2>{work.heading}</h2>
+        <p>{work.description}</p>
+      </Reveal>
+      <Reveal className="bento-grid" delay={0.1}>
+        <FeatureCard {...featureA} />
+        <ProductCard {...work.items[0]} />
+        <ProductCard {...work.items[1]} />
+        <ProductCard {...work.items[2]} />
+        <FeatureCard {...featureB} />
+        <ProductCard {...work.items[3]} />
       </Reveal>
     </section>
   )
