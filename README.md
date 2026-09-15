@@ -26,3 +26,5 @@ npm run build
 - [React](https://react.dev/) + [Vite](https://vite.dev/)
 - [Framer Motion](https://motion.dev/) for scroll-in reveal animations
 - [Oxlint](https://oxc.rs/) for linting
+
+<!-- test webhook trigger Tue Sep 15 22:45:19 SEAST 2026 -->
