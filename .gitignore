@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Terraform local state/binaries (not committed - each operator/agent gets its own)
+iac/terraform/terraform.exe
+iac/terraform/.terraform/
+iac/terraform/.terraform.lock.hcl
+iac/terraform/terraform.tfstate*
