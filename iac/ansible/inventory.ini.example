@@ -1,0 +1,4 @@
+; Generated at runtime by the Jenkins CD job using the Terraform output IP.
+; Example:
+[cd_vm]
+192.168.220.130 ansible_user=vagrant ansible_ssh_private_key_file=/tmp/cd_vm_key ansible_ssh_common_args='-o StrictHostKeyChecking=no'

@@ -1,0 +1,20 @@
+- hosts: cd_vm
+  become: true
+  vars:
+    image_name: "thanhlamcode/freelance-agency-template:latest"
+    container_name: "freelance-agency-app"
+
+  tasks:
+    - name: Install Docker
+      shell: curl -fsSL https://get.docker.com | sh
+      args:
+        creates: /usr/bin/docker
+
+    - name: Pull latest image
+      shell: "docker pull {{ image_name }}"
+
+    - name: Remove old container if exists
+      shell: "docker rm -f {{ container_name }} || true"
+
+    - name: Run new container
+      shell: "docker run -d --name {{ container_name }} -p 80:80 {{ image_name }}"
