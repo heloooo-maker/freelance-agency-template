@@ -1,0 +1,34 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            thanhlamcode/freelance-agency-template:${{ github.sha }}
+            thanhlamcode/freelance-agency-template:latest
+
+      - name: Update GitOps repo
+        run: |
+          git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/heloooo-maker/gitops.git
+          cd gitops
+          sed -i "s|image: thanhlamcode/freelance-agency-template:.*|image: thanhlamcode/freelance-agency-template:${{ github.sha }}|" app/02-deployment.yaml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "Deploy freelance-agency-template@${{ github.sha }}"
+          git push
