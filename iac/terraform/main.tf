@@ -27,5 +27,5 @@ resource "null_resource" "cd_vm" {
 
 data "external" "vm_ip" {
   depends_on = [null_resource.cd_vm]
-  program    = ["bash", "${path.module}/get_ip.sh", var.vm_dir]
+  program    = ["C:/Program Files/Git/bin/bash.exe", "${path.module}/get_ip.sh", var.vm_dir]
 }
